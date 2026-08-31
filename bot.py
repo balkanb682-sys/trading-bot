@@ -15,7 +15,7 @@ from telegram.ext import (
 )
 from telegram.request import HTTPXRequest
 
-# Token we API Key Koyeb Environment Variables-dan alynýar
+# Token we API Key Environment Variables-dan alynýar
 TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN")
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
 
@@ -53,7 +53,7 @@ logging.basicConfig(
     level=logging.INFO
 )
 
-# KOYEB HEALTH CHECK SERVER (8080 Port)
+# HEALTH CHECK SERVER
 class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         self.send_response(200)
@@ -69,8 +69,10 @@ def run_health_check_server():
     server = HTTPServer(("0.0.0.0", port), SimpleHTTPRequestHandler)
     server.serve_forever()
 
+# GEMINI API CALL (Täzelenen Model Atlary Bilen)
 def call_gemini_api(contents):
-    models = ["gemini-2.5-flash", "gemini-2.0-flash"]
+    # API tarapyndan maslahat berilýän täze modeller
+    models = ["gemini-3.6-flash", "gemini-2.5-flash", "gemini-1.5-flash"]
     last_error = "Unknown error"
 
     for model in models:
@@ -128,6 +130,5 @@ if __name__ == "__main__":
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
     app.add_handler(MessageHandler(filters.PHOTO, handle_photo))
     
-    print("Trader Mugallym Bot Koyeb-de ishlemage tayyar!")
+    print("Trader Mugallym Bot işläp başlady!")
     app.run_polling()
-   
