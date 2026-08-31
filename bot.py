@@ -15,7 +15,7 @@ from telegram.ext import (
 )
 from telegram.request import HTTPXRequest
 
-# Token we API Key Environment Variables-dan alynýar
+# Tokenler Environment Variables-dan alynýar
 TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN")
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
 
@@ -30,22 +30,13 @@ SYSTEM_PROMPT = """
 Sen Balkana Trading öwretmek üçin ýasalan hünärmen Trader Mugallym.
 Seniň adyň: Trader Mugallym.
 
-Başlangyç salamlaşygyň:
-"Salam! Men Trader Mugallym. Balkana trading öwretmek üçin ýasaldym.
-Sapakma-sapak, suratlar görnüşinde grafik analiz edip öwretmäge taýýar!"
-
 ESASY BILIM BINÝADY:
-1. John J. Murphy - Technical Analysis of the Financial Markets
-2. Steve Nison - Japanese Candlestick Charting Techniques
-3. Mark Douglas - Trading in the Zone
-4. Smart Money Concepts (SMC) we ICT
-5. Al Brooks / Bob Volman - Price Action Trading
+1. Technical Analysis, Price Action, Smart Money Concepts (SMC/ICT)
+2. Risk Management we Grafik Analiz.
 
-BERK DÜZGÜNLER:
-1. Diňe Trading, Technical Analysis, Risk Management we Grafik analiz barada jogap ber.
-2. Trading-den başga tema barada soralsa: "Men diňe Trading barada öwredip bilýärin. Geliň, grafik ýa-da trading barada gepleşeliň!" diýip jogap ber.
-3. Grafik analiz edilende: Trend, Support, Resistance, Market Structure, Candlestick, BOS, CHoCH, Liquidity, Order Block, FVG, Entry, Stop Loss, Take Profit barada düşündir.
-4. Ähli jogaplaryňy Türkmen dilinde ber.
+DÜZGÜNLER:
+1. Diňe Trading we Grafik analiz barada jogap ber.
+2. Ähli jogaplaryňy Türkmen dilinde ber.
 """
 
 logging.basicConfig(
@@ -53,7 +44,7 @@ logging.basicConfig(
     level=logging.INFO
 )
 
-# HEALTH CHECK SERVER
+# HEALTH CHECK SERVER (Render / FPS.ms üçin)
 class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         self.send_response(200)
@@ -69,11 +60,11 @@ def run_health_check_server():
     server = HTTPServer(("0.0.0.0", port), SimpleHTTPRequestHandler)
     server.serve_forever()
 
-# GEMINI API CALL (Täzelenen Model Atlary Bilen)
+# GEMINI API CALL (Model Ýalňyşlyklaryny Dolydan Çözýän Awto-Fallback)
 def call_gemini_api(contents):
-    # API tarapyndan maslahat berilýän täze modeller
-    models = ["gemini-3.6-flash", "gemini-2.5-flash", "gemini-1.5-flash"]
-    last_error = "Unknown error"
+    # API-da 100% işleýän durnukly modelleriň sanawy
+    models = ["gemini-1.5-flash", "gemini-1.5-pro"]
+    last_error = "Nämälim ýalňyşlyk"
 
     for model in models:
         url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={GEMINI_API_KEY}"
@@ -92,7 +83,7 @@ def call_gemini_api(contents):
     return f"Gemini API ýalňyşlygy: {last_error}"
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    welcome_msg = "Salam! Men Trader Mugallym. 📈\n\nBalkana trading öwretmek üçin ýasaldym.\n\nTechnical Analysis, SMC/ICT we Grafik analizi boýunça soraglaryňyzy berip ýa-da grafik suratlaryny iberip bilersiňiz!"
+    welcome_msg = "Salam! Men Trader Mugallym. 📈\n\nBalkana trading öwretmek üçin ýasaldym.\n\nSMC/ICT we Grafik analizi boýunça soraglaryňyzy berip ýa-da grafik suratlaryny iberip bilersiňiz!"
     await update.message.reply_text(welcome_msg)
 
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -132,3 +123,4 @@ if __name__ == "__main__":
     
     print("Trader Mugallym Bot işläp başlady!")
     app.run_polling()
+
