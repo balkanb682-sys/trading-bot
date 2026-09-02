@@ -1,7 +1,7 @@
-# GEMINI API CALL (Iň Täze we Durnukly Modeller)
+# GEMINI API CALL (Gemini 3.6 Flash we Ätiýaçlyk Modeller)
 def call_gemini_api(contents):
-    # Durnukly Gemini modelleriniň yzygiderli sanawy
-    models = ["gemini-3.7-flash", "gemini-3.6-flash", "gemini-2.5-flash"]
+    # gemini-3.6-flash ilkinji saýlaw hökmünde goşuldy
+    models = ["gemini-3.6-flash", "gemini-2.5-flash", "gemini-1.5-flash"]
     last_error = "Nämälim ýalňyşlyk"
 
     for model in models:
@@ -19,4 +19,3 @@ def call_gemini_api(contents):
             last_error = str(error)
 
     return f"Gemini API ýalňyşlygy: {last_error}"
-        
