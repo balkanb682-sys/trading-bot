@@ -1,7 +1,7 @@
-# GEMINI API CALL (Diňe Goldanýan Modeller)
+# GEMINI API CALL (Diňe hakyky bar bolan modeller)
 def call_gemini_api(contents):
-    # Diňe işjeň we goldanýan modeller sanawy
-    models = ["gemini-3.6-flash", "gemini-2.5-flash", "gemini-flash"]
+    # Google API v1beta-da 100% bar bolan modeller
+    models = ["gemini-1.5-flash", "gemini-1.5-pro", "gemini-2.0-flash"]
     last_error = "Nämälim ýalňyşlyk"
 
     for model in models:
@@ -19,3 +19,4 @@ def call_gemini_api(contents):
             last_error = str(error)
 
     return f"Gemini API ýalňyşlygy: {last_error}"
+    
