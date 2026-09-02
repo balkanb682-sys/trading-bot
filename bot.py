@@ -8,9 +8,9 @@ GEMINI_API_KEY = "AIzaSyCX8LaSNRCBwoHbK9w9yRpQWgwS0vcV838"
 
 bot = telebot.TeleBot(TELEGRAM_BOT_TOKEN)
 
-# GEMINI API CALL (Diňe goldanýan gemini-3.6-flash)
+# GEMINI API CALL (Işjeň modeller we awtomatiki ätiýaçlyk)
 def call_gemini_api(contents):
-    models = ["gemini-3.6-flash"]
+    models = ["gemini-1.5-flash", "gemini-1.5-flash-8b", "gemini-1.5-pro"]
     last_error = "Nämälim ýalňyşlyk"
 
     for model in models:
