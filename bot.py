@@ -1,33 +1,44 @@
 import os
+import time
 import requests
 import telebot
 
-# API AÇARLARY WE TOKENLER
 TELEGRAM_BOT_TOKEN = "8929262098:AAG1zWbv7S_DRXnvFU3be5zhp10APJW9_cU"
 GEMINI_API_KEY = "AIzaSyCX8LaSNRCBwoHbK9w9yRpQWgwS0vcV838"
 
 bot = telebot.TeleBot(TELEGRAM_BOT_TOKEN)
 
-# GEMINI API CALL (Işjeň modeller we awtomatiki ätiýaçlyk)
 def call_gemini_api(contents):
+    # Durnukly API modelleri
     models = ["gemini-1.5-flash", "gemini-1.5-flash-8b", "gemini-1.5-pro"]
-    last_error = "Nämälim ýalňyşlyk"
-
+    
     for model in models:
-        url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={GEMINI_API_KEY}"
+        # v1 endpoint ulanylyşy (v1beta-dan durnuklyrak)
+        url = f"https://generativelanguage.googleapis.com/v1/models/{model}:generateContent?key={GEMINI_API_KEY}"
         headers = {"Content-Type": "application/json"}
         payload = {"contents": contents}
-        try:
-            response = requests.post(url, json=payload, headers=headers, timeout=60)
-            data = response.json()
-            if "candidates" in data and data["candidates"]:
-                return data["candidates"][0]["content"]["parts"][0]["text"]
-            if "error" in data:
-                last_error = data["error"].get("message", str(data["error"]))
-        except Exception as error:
-            last_error = str(error)
+        
+        for attempt in range(2):  # Her model üçin 2 gezek synanyşyk
+            try:
+                response = requests.post(url, json=payload, headers=headers, timeout=60)
+                data = response.json()
+                
+                if "candidates" in data and data["candidates"]:
+                    return data["candidates"][0]["content"]["parts"][0]["text"]
+                
+                # Eger High Demand beräýse, 2 sekunt garaşyp täzeden synanyşýar
+                if "error" in data:
+                    err_msg = data["error"].get("message", "")
+                    if "high demand" in err_msg.lower() or "503" in err_msg:
+                        time.sleep(2)
+                        continue
+                    else:
+                        last_error = err_msg
+            except Exception as e:
+                last_error = str(e)
+                time.sleep(1)
 
-    return f"Gemini API ýalňyşlygy: {last_error}"
+    return f"Gemini API wagtlaýyn meşgul: Lütfen birazdan täzeden synanyşyň. ({last_error})"
 
 @bot.message_handler(func=lambda message: True)
 def handle_message(message):
