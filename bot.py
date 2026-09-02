@@ -1,7 +1,7 @@
-# GEMINI API CALL (Gemini 3.6 Flash we Ätiýaçlyk Modeller)
+# GEMINI API CALL (Diňe Goldanýan Modeller)
 def call_gemini_api(contents):
-    # gemini-3.6-flash ilkinji saýlaw hökmünde goşuldy
-    models = ["gemini-3.6-flash", "gemini-2.5-flash", "gemini-1.5-flash"]
+    # Diňe işjeň we goldanýan modeller sanawy
+    models = ["gemini-3.6-flash", "gemini-2.5-flash", "gemini-flash"]
     last_error = "Nämälim ýalňyşlyk"
 
     for model in models:
