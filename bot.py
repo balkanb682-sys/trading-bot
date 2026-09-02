@@ -2,20 +2,15 @@ import os
 import requests
 import telebot
 
-# Environment-den tokenleri almak
-TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN")
-GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
-
-if not TELEGRAM_BOT_TOKEN:
-    raise RuntimeError("TELEGRAM_BOT_TOKEN tapylmady!")
-if not GEMINI_API_KEY:
-    raise RuntimeError("GEMINI_API_KEY tapylmady!")
+# API AÇARLARY WE TOKENLER
+TELEGRAM_BOT_TOKEN = "8929262098:AAG1zWbv7S_DRXnvFU3be5zhp10APJW9_cU"
+GEMINI_API_KEY = "AIzaSyCX8LaSNRCBwoHbK9w9yRpQWgwS0vcV838"
 
 bot = telebot.TeleBot(TELEGRAM_BOT_TOKEN)
 
-# GEMINI API CALL
+# GEMINI API CALL (Diňe goldanýan gemini-3.6-flash)
 def call_gemini_api(contents):
-    models = ["gemini-1.5-flash", "gemini-1.5-pro", "gemini-2.0-flash"]
+    models = ["gemini-3.6-flash"]
     last_error = "Nämälim ýalňyşlyk"
 
     for model in models:
